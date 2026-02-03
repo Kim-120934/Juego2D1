@@ -56,8 +56,8 @@ public class HollowKnightData : ScriptableObject
     [Space(20)]
 
     [Header("Wall Slide")]
-    public float slideSpeed = -2.5f;
-    public float slideAccel = 30f;
+    public float slideSpeed = -1.5f;
+    public float slideAccel = 20f;
 
     [Header("Assists")]
     [Range(0.01f, 0.5f)] public float coyoteTime = 0.12f;

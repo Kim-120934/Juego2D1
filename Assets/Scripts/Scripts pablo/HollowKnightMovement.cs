@@ -254,7 +254,7 @@ public class HollowKnightMovement : MonoBehaviour
             if (IsWallSliding)
             {
                 // Slow fall on wall
-                SetGravityScale(0);
+                SetGravityScale(Data.gravityScale*0.3f);
             }
             else if (RB.linearVelocity.y < 0 && _moveInput.y < 0)
             {
