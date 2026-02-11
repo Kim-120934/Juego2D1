@@ -83,8 +83,21 @@ public class HollowKnightData : ScriptableObject
 
     [Space(20)]
 
-    [Header("Attack (For future implementation)")]
+    [Header("Attack")]
     [Range(0.01f, 0.5f)] public float attackInputBufferTime = 0.1f;
+    public float attackDuration = 0.3f;
+    public float attackKnockback = 5f;
+    public Vector2 attackHitboxSize = new Vector2(1.5f, 1f);
+    public float attackRange = 1f;
+    
+    [Space(20)]
+    
+    [Header("Health & Damage")]
+    public int maxHealth = 5;
+    public float invulnerabilityDuration = 1.5f;
+    public Vector2 knockbackForce = new Vector2(10f, 8f);
+    public float respawnDelay = 2f;
+    [HideInInspector] public Transform respawnPoint;
 
     private void OnValidate()
     {
@@ -104,4 +117,6 @@ public class HollowKnightData : ScriptableObject
         runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
         #endregion
     }
+
+    
 }

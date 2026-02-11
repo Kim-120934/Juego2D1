@@ -38,7 +38,17 @@ public class HollowKnightMovement : MonoBehaviour
     private bool _dashRefilling;
     private Vector2 _lastDashDir;
     private bool _isDashAttacking;
+
+    //Attack
+    private float _attackStartTime;
+    private Vector2 _attackDirection;
     #endregion
+    
+    //Health
+    public int CurrentHealth { get; private set; }
+    public int MaxHealth { get; private set; }
+    public bool IsInvulnerable { get; private set; }
+    private float _invulnerabilityTimer;
 
     #region INPUT PARAMETERS
     private Vector2 _moveInput;
@@ -83,6 +93,11 @@ public class HollowKnightMovement : MonoBehaviour
         IsFacingRight = true;
         _airJumpsLeft = Data.airJumpsAmount;
         _dashesLeft = Data.dashAmount;
+    
+       // Initialize Health 
+        MaxHealth = Data.maxHealth;
+        CurrentHealth = MaxHealth;
+        IsInvulnerable = false;
     }
 
     private void Update()
@@ -96,6 +111,33 @@ public class HollowKnightMovement : MonoBehaviour
         LastPressedJumpTime -= Time.deltaTime;
         LastPressedDashTime -= Time.deltaTime;
         LastPressedAttackTime -= Time.deltaTime;
+            // Invulnerability Timer 
+        if (IsInvulnerable)
+        {
+            _invulnerabilityTimer -= Time.deltaTime;
+            if (_invulnerabilityTimer <= 0)
+            {
+                IsInvulnerable = false;
+                // Restaurar opacidad del sprite
+                if (spriteRenderer != null)
+                {
+                    Color c = spriteRenderer.color;
+                    c.a = 1f;
+                    spriteRenderer.color = c;
+                }
+            }
+            else
+            {
+                // Efecto de parpadeo durante invulnerabilidad
+                float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+                if (spriteRenderer != null)
+                {
+                    Color c = spriteRenderer.color;
+                    c.a = alpha;
+                    spriteRenderer.color = c;
+                }
+            }
+        }
         #endregion
 
         #region INPUT HANDLER
@@ -132,36 +174,52 @@ public class HollowKnightMovement : MonoBehaviour
         {
             OnAttackInput();
         }
+        // TESTING - Recibir daño (TEMPORAL)  - Presiona H para simular daño desde la izquierda
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            TakeDamage(1, transform.position + Vector3.left);
+            Debug.Log("TEST: Daño recibido desde la izquierda");
+        }
+        
+        // TESTING - Curar (TEMPORAL) - Presiona G para curar 1 punto de vida
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Heal(1);
+            Debug.Log("TEST: Curado");
+        }
         #endregion
 
         #region COLLISION CHECKS
         if (!IsDashing && !IsJumping)
         {
-            // Ground Check
+            // Ground Check (cache OverlapBox results to avoid duplicate physics calls)
             bool wasGrounded = LastOnGroundTime > 0;
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
+            bool isGrounded = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
+            if (isGrounded)
             {
                 LastOnGroundTime = Data.coyoteTime;
-                
+
                 // Reset air jumps and dash on landing
                 if (!wasGrounded)
                 {
                     _airJumpsLeft = Data.airJumpsAmount;
-                    
+
                     // Play land effect
                     if (_landEffect != null)
                         _landEffect.Play();
                 }
             }
 
+            // Wall checks: cache front/back
+            bool frontWall = Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer);
+            bool backWall = Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer);
+
             // Right Wall Check
-            if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-                    || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)))
+            if ((frontWall && IsFacingRight) || (backWall && !IsFacingRight))
                 LastOnWallRightTime = Data.coyoteTime;
 
             // Left Wall Check
-            if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-                || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)))
+            if ((frontWall && !IsFacingRight) || (backWall && IsFacingRight))
                 LastOnWallLeftTime = Data.coyoteTime;
 
             LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
@@ -233,7 +291,18 @@ public class HollowKnightMovement : MonoBehaviour
             IsJumping = false;
             _isJumpCut = false;
 
-            StartCoroutine(nameof(StartDash), _lastDashDir);
+            // Use IEnumerator overload (type-safe)
+            StartCoroutine(StartDash(_lastDashDir));
+        }
+        #endregion
+
+        #region ATTACK CHECKS  
+        if (CanAttack() && LastPressedAttackTime > 0)
+        {
+            DetermineAttackDirection();
+            IsAttacking = true;
+            _attackStartTime = Time.time;
+            StartCoroutine(PerformAttack());
         }
         #endregion
 
@@ -333,7 +402,9 @@ public class HollowKnightMovement : MonoBehaviour
     #region GENERAL METHODS
     public void SetGravityScale(float scale)
     {
-        RB.gravityScale = scale;
+        // Avoid setting gravityScale every frame if unchanged
+        if (!Mathf.Approximately(RB.gravityScale, scale))
+            RB.gravityScale = scale;
     }
 
     private void Sleep(float duration)
@@ -352,21 +423,26 @@ public class HollowKnightMovement : MonoBehaviour
     #region RUN METHODS
     private void Run(float lerpAmount)
     {
+        // Cache current velocity to minimize repeated property access
+        float currentVelX = RB.linearVelocity.x;
+        float currentVelY = RB.linearVelocity.y;
+
         float targetSpeed = _moveInput.x * Data.runMaxSpeed;
-        targetSpeed = Mathf.Lerp(RB.linearVelocity.x, targetSpeed, lerpAmount);
+        targetSpeed = Mathf.Lerp(currentVelX, targetSpeed, lerpAmount);
 
         #region Calculate AccelRate
+        float absTarget = Mathf.Abs(targetSpeed);
         float accelRate;
 
         if (LastOnGroundTime > 0)
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
+            accelRate = (absTarget > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
         else
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
+            accelRate = (absTarget > 0.01f) ? Data.runAccelAmount * Data.accelInAir : Data.runDeccelAmount * Data.deccelInAir;
         #endregion
 
         #region Add Bonus Jump Apex Acceleration
         // Floaty feel at apex
-        if ((IsJumping || _isJumpFalling) && Mathf.Abs(RB.linearVelocity.y) < Data.jumpHangTimeThreshold)
+        if ((IsJumping || _isJumpFalling) && Mathf.Abs(currentVelY) < Data.jumpHangTimeThreshold)
         {
             accelRate *= Data.jumpHangAccelerationMult;
             targetSpeed *= Data.jumpHangMaxSpeedMult;
@@ -374,14 +450,14 @@ public class HollowKnightMovement : MonoBehaviour
         #endregion
 
         #region Conserve Momentum
-        if (Data.doConserveMomentum && Mathf.Abs(RB.linearVelocity.x) > Mathf.Abs(targetSpeed) && 
-            Mathf.Sign(RB.linearVelocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+        if (Data.doConserveMomentum && Mathf.Abs(currentVelX) > absTarget && 
+            Mathf.Sign(currentVelX) == Mathf.Sign(targetSpeed) && absTarget > 0.01f && LastOnGroundTime < 0)
         {
             accelRate = 0;
         }
         #endregion
 
-        float speedDif = targetSpeed - RB.linearVelocity.x;
+        float speedDif = targetSpeed - currentVelX;
         float movement = speedDif * accelRate;
 
         RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
@@ -541,7 +617,7 @@ public class HollowKnightMovement : MonoBehaviour
 
     private bool CanWallJump()
     {
-        return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0;
+        return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && !IsJumping;
     }
 
     private bool CanJumpCut()
@@ -559,7 +635,7 @@ public class HollowKnightMovement : MonoBehaviour
         // Refill dash when touching ground
         if (!IsDashing && _dashesLeft < Data.dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
         {
-            StartCoroutine(nameof(RefillDash), 1);
+            StartCoroutine(RefillDash(1));
         }
 
         return _dashesLeft > 0;
@@ -567,10 +643,251 @@ public class HollowKnightMovement : MonoBehaviour
 
     public bool CanWallSlide()
     {
-        if (LastOnWallTime > 0 && !IsJumping && !IsDashing && LastOnGroundTime <= 0)
-            return true;
-        else
+        return (LastOnWallTime > 0 && !IsJumping && !IsDashing && LastOnGroundTime <= 0);
+    }
+
+    private bool CanAttack()
+    {
+        // No atacar durante dash o si ya estás atacando
+        if (IsDashing || IsAttacking)
             return false;
+
+        return true;
+    }
+    #endregion
+
+
+    #region ATTACK METHODS 
+    private void DetermineAttackDirection()
+    {
+        // Determinar dirección del ataque basado en input (4 direcciones como HK)
+        
+        // PRIORIDAD: Arriba y Abajo tienen prioridad sobre horizontal
+        if (_moveInput.y > 0.5f)
+        {
+            // Ataque ARRIBA
+            _attackDirection = Vector2.up;
+            Debug.Log("Ataque ARRIBA");
+        }
+        else if (_moveInput.y < -0.5f)
+        {
+            // Ataque ABAJO (pogo en HK)
+            _attackDirection = Vector2.down;
+            Debug.Log("Ataque ABAJO (Pogo)");
+        }
+        else
+        {
+            // Ataque LATERAL (derecha o izquierda según donde mires)
+            _attackDirection = IsFacingRight ? Vector2.right : Vector2.left;
+            Debug.Log($"Ataque LATERAL ({(IsFacingRight ? "Derecha" : "Izquierda")})");
+        }
+    }
+
+   private IEnumerator PerformAttack()
+{
+    LastPressedAttackTime = 0;
+    
+    // Pequeño impulso en la dirección del ataque (como en HK)
+    if (_attackDirection == Vector2.down && !IsGrounded())
+    {
+        // Pogo: Pequeño impulso hacia arriba al atacar abajo en el aire
+        RB.linearVelocity = new Vector2(RB.linearVelocity.x, 0f);
+        RB.AddForce(Vector2.up * Data.jumpForce * 0.5f, ForceMode2D.Impulse);
+        Debug.Log("¡POGO! Rebote hacia arriba");
+    }
+    
+    // Aquí irían las animaciones
+    // AnimHandler.SetTrigger("Attack_" + GetAttackDirectionString());
+    
+    // Esperar un frame para que la animación empiece
+    yield return new WaitForSeconds(0.1f);
+    
+    // DETECTAR Y GOLPEAR ENEMIGOS
+    DetectAndHitEnemies();
+    
+    // Duración del resto del ataque
+    float remainingDuration = Data.attackDuration - 0.1f;
+    yield return new WaitForSeconds(remainingDuration);
+    
+    IsAttacking = false;
+}
+private void DetectAndHitEnemies()
+{
+    // Calcular posición del hitbox según dirección del ataque
+    Vector2 attackPosition = (Vector2)transform.position + (_attackDirection * Data.attackRange);
+    
+    // Detectar todos los colliders en el área de ataque
+    Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(
+        attackPosition, 
+        Data.attackHitboxSize, 
+        0f, 
+        Data.enemyLayer  // Necesitamos añadir esto al Data
+    );
+    
+    Debug.Log($"Enemigos detectados: {hitEnemies.Length}");
+    
+    // Aplicar daño a cada enemigo golpeado
+    foreach (Collider2D enemy in hitEnemies)
+    {
+        // Intentar obtener el componente de salud del enemigo
+        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+        
+        if (enemyHealth != null)
+        {
+            // Calcular dirección del knockback (desde el jugador hacia el enemigo)
+            Vector2 knockbackDirection = (enemy.transform.position - transform.position).normalized;
+            
+            // Aplicar daño al enemigo
+            enemyHealth.TakeDamage(Data.attackDamage, knockbackDirection);
+            
+            Debug.Log($"¡Golpeaste a {enemy.name}!");
+            
+            // Pogo extra si golpeaste hacia abajo en el aire
+            if (_attackDirection == Vector2.down && !IsGrounded())
+            {
+                // Impulso extra al golpear enemigo (pogo mejorado)
+                RB.linearVelocity = new Vector2(RB.linearVelocity.x, 0f);
+                RB.AddForce(Vector2.up * Data.jumpForce * 0.7f, ForceMode2D.Impulse);
+                Debug.Log("¡POGO MEJORADO por golpear enemigo!");
+            }
+        }
+    }
+}
+
+    private string GetAttackDirectionString()
+    {
+        if (_attackDirection == Vector2.up) return "Up";
+        if (_attackDirection == Vector2.down) return "Down";
+        if (_attackDirection == Vector2.right) return "Right";
+        return "Left";
+    }
+
+    private bool IsGrounded()
+    {
+        return LastOnGroundTime > 0;
+    }
+    #endregion
+
+    #region HEALTH METHODS 
+    public void TakeDamage(int damage, Vector2 damageSourcePosition)
+    {
+        // No recibir daño si estamos invulnerables o muertos
+        if (IsInvulnerable || CurrentHealth <= 0)
+            return;
+        
+        // Reducir vida
+        CurrentHealth -= damage;
+        CurrentHealth = Mathf.Max(CurrentHealth, 0);
+        
+        Debug.Log($"¡Daño recibido! Vida: {CurrentHealth}/{MaxHealth}");
+        
+        // Activar invulnerabilidad
+        IsInvulnerable = true;
+        _invulnerabilityTimer = Data.invulnerabilityDuration;
+        
+        // Aplicar knockback
+        ApplyKnockback(damageSourcePosition);
+        
+        // Efectos visuales/sonido aquí
+        // PlayHurtSound();
+        // PlayHurtAnimation();
+        
+        // Verificar muerte
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    
+    private void ApplyKnockback(Vector2 damageSourcePosition)
+    {
+        // Calcular dirección del knockback (alejarse de la fuente de daño)
+        Vector2 knockbackDirection = ((Vector2)transform.position - damageSourcePosition).normalized;
+        
+        // Cancelar velocidad actual
+        RB.linearVelocity = Vector2.zero;
+        
+        // Aplicar fuerza de knockback
+        Vector2 knockbackForce = new Vector2(
+            knockbackDirection.x * Data.knockbackForce.x,
+            Data.knockbackForce.y  // Siempre empuja hacia arriba
+        );
+        
+        RB.AddForce(knockbackForce, ForceMode2D.Impulse);
+        
+        Debug.Log($"Knockback aplicado: {knockbackForce}");
+    }
+    
+    public void Heal(int amount)
+    {
+        if (CurrentHealth >= MaxHealth)
+            return;
+        
+        CurrentHealth += amount;
+        CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
+        
+        Debug.Log($"¡Curado! Vida: {CurrentHealth}/{MaxHealth}");
+        
+        // Efectos visuales/sonido aquí
+        // PlayHealSound();
+        // PlayHealParticles();
+    }
+    
+    private void Die()
+    {
+        Debug.Log("¡Has muerto!");
+        
+        // Detener movimiento
+        RB.linearVelocity = Vector2.zero;
+        
+        // Desactivar controles (opcional)
+        // enabled = false;
+        
+        // Animación de muerte
+        // AnimHandler.SetTrigger("Death");
+        
+        // Esperar y respawnear
+        StartCoroutine(nameof(RespawnAfterDelay));
+    }
+    
+    private IEnumerator RespawnAfterDelay()
+    {
+        yield return new WaitForSeconds(Data.respawnDelay);
+        
+        Respawn();
+    }
+    
+    private void Respawn()
+    {
+        // Restaurar vida
+        CurrentHealth = MaxHealth;
+        IsInvulnerable = true;
+        _invulnerabilityTimer = Data.invulnerabilityDuration;
+        
+        // Teleport al último checkpoint (por ahora, posición inicial)
+        if (Data.respawnPoint != null)
+        {
+            transform.position = Data.respawnPoint.position;
+        }
+        else
+        {
+            // Si no hay checkpoint, respawn en posición actual + arriba
+            transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+        }
+        
+        // Resetear velocidad
+        RB.linearVelocity = Vector2.zero;
+        
+        // Restaurar controles
+        // enabled = true;
+        
+        Debug.Log("¡Respawneado!");
+    }
+    
+    public void SetRespawnPoint(Transform newRespawnPoint)
+    {
+        Data.respawnPoint = newRespawnPoint;
+        Debug.Log($"Nuevo punto de respawn: {newRespawnPoint.position}");
     }
     #endregion
 
@@ -582,6 +899,13 @@ public class HollowKnightMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
         Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
+        if (Application.isPlaying && IsAttacking)
+    {
+        Gizmos.color = Color.red;
+        Vector2 attackPosition = (Vector2)transform.position + (_attackDirection * Data.attackRange);
+        Gizmos.DrawWireCube(attackPosition, Data.attackHitboxSize);
+    }
+
     }
     #endregion
 }
