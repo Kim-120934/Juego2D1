@@ -86,9 +86,11 @@ public class HollowKnightData : ScriptableObject
     [Header("Attack")]
     [Range(0.01f, 0.5f)] public float attackInputBufferTime = 0.1f;
     public float attackDuration = 0.3f;
+    public int attackDamage = 1;     
     public float attackKnockback = 5f;
     public Vector2 attackHitboxSize = new Vector2(1.5f, 1f);
     public float attackRange = 1f;
+    public LayerMask enemyLayer; 
     
     [Space(20)]
     
