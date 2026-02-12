@@ -791,7 +791,7 @@ private void DetectAndHitEnemies()
         // Efectos visuales/sonido aquí
         // PlayHurtSound();
         // PlayHurtAnimation();
-        
+
         // Verificar muerte
         if (CurrentHealth <= 0)
         {

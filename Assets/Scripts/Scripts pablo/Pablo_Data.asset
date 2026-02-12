@@ -53,3 +53,16 @@ MonoBehaviour:
   dashRefillTime: 0.05
   dashInputBufferTime: 0.1
   attackInputBufferTime: 0.1
+  attackDuration: 0.3
+  attackDamage: 1
+  attackKnockback: 5
+  attackHitboxSize: {x: 1.5, y: 1}
+  attackRange: 1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  maxHealth: 5
+  invulnerabilityDuration: 1.5
+  knockbackForce: {x: 10, y: 8}
+  respawnDelay: 2
+  respawnPoint: {fileID: 0}
