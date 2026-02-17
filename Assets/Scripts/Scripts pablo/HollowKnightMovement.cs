@@ -49,7 +49,7 @@ public class HollowKnightMovement : MonoBehaviour
     public int MaxHealth { get; private set; }
     public bool IsInvulnerable { get; private set; }
     private float _invulnerabilityTimer;
-
+    private float _fallSpeedYDampingChangeThreshold;
     #region INPUT PARAMETERS
     private Vector2 _moveInput;
     public float LastPressedJumpTime { get; private set; }
@@ -98,10 +98,24 @@ public class HollowKnightMovement : MonoBehaviour
         MaxHealth = Data.maxHealth;
         CurrentHealth = MaxHealth;
         IsInvulnerable = false;
+        _fallSpeedYDampingChangeThreshold= CameraManager.instance._fallSpeedYDampingChangeThreshold;
     }
 
     private void Update()
     {
+        #region CAMERA MANAGER
+        if (RB.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.LerpedFromPlayerFalling)
+        {
+            CameraManager.instance.LerpYDamping(true);
+            CameraManager.instance.LerpedFromPlayerFalling = true;
+        }
+        else if (RB.linearVelocity.y >= _fallSpeedYDampingChangeThreshold && CameraManager.instance.LerpedFromPlayerFalling)
+        {
+            CameraManager.instance.LerpYDamping(false);
+            CameraManager.instance.LerpedFromPlayerFalling = false;
+        }
+        #endregion
+
         #region TIMERS
         LastOnGroundTime -= Time.deltaTime;
         LastOnWallTime -= Time.deltaTime;
