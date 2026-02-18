@@ -11,7 +11,9 @@ public class EnemyHealth : MonoBehaviour
     
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    
+
+    public bool IsDead { get; internal set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
