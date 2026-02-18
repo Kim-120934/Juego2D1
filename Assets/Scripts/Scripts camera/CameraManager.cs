@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using static CameraControlTrigger;
@@ -20,35 +21,40 @@ public class CameraManager : MonoBehaviour
     private Coroutine _lerpYPanCoroutine;
     private Coroutine _panCameraCoroutine;
 
-
     private CinemachinePositionComposer _positionComposer;
     private CinemachineCamera _currentCamera;
     private float _normYPanAmount;
 
-    private Vector2 _startingTargetOffset;
+    // Diccionario para guardar el offset inicial de cada cámara
+    private Dictionary<CinemachineCamera, Vector3> _cameraStartingOffsets = new Dictionary<CinemachineCamera, Vector3>();
+
     private void Awake()
     {
         if (instance == null)
             instance = this;
 
-        // Buscar la cámara activa
+        // Guardar el offset inicial de TODAS las cámaras
         for (int i = 0; i < _allVirtualCameras.Length; i++)
         {
-            if (_allVirtualCameras[i].isActiveAndEnabled)
+            var cam = _allVirtualCameras[i];
+            var composer = cam.GetComponent<CinemachinePositionComposer>();
+
+            if (composer != null)
             {
-                _currentCamera = _allVirtualCameras[i];
-                break;
+                _cameraStartingOffsets[cam] = composer.TargetOffset;
+            }
+
+            if (cam.isActiveAndEnabled)
+            {
+                _currentCamera = cam;
+                _positionComposer = composer;
+
+                if (_positionComposer != null)
+                {
+                    _normYPanAmount = _positionComposer.Damping.y;
+                }
             }
         }
-
-        // Obtener el Position Composer (nuevo equivalente al FramingTransposer)
-        _positionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
-
-        if (_positionComposer != null)
-        {
-            _normYPanAmount = _positionComposer.Damping.y;
-        }
-        _startingTargetOffset = _positionComposer.TargetOffset;
     }
 
     #region Lerp the Y Damping
@@ -101,6 +107,7 @@ public class CameraManager : MonoBehaviour
     }
 
     #endregion
+
     #region Pan Camera
 
     public void PanCameraOnContact(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
@@ -110,8 +117,8 @@ public class CameraManager : MonoBehaviour
 
     private IEnumerator PanCamera(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
     {
-        Vector2 endPos = Vector2.zero;
-        Vector2 startingPos = Vector2.zero;
+        Vector3 endPos = Vector3.zero;
+        Vector3 startingPos = Vector3.zero;
 
         //set the direction and distance if we are panning in the direction indicated by the trigger object
         if (!panToStartingPos)
@@ -120,16 +127,16 @@ public class CameraManager : MonoBehaviour
             switch (panDirection)
             {
                 case PanDirection.Up:
-                    endPos = Vector2.up;
+                    endPos = Vector3.up;
                     break;
                 case PanDirection.Down:
-                    endPos = Vector2.down;
+                    endPos = Vector3.down;
                     break;
                 case PanDirection.Left:
-                    endPos = Vector2.right;
+                    endPos = Vector3.left;
                     break;
                 case PanDirection.Right:
-                    endPos = Vector2.left;
+                    endPos = Vector3.right;
                     break;
                 default:
                     break;
@@ -137,7 +144,8 @@ public class CameraManager : MonoBehaviour
 
             endPos *= panDistance;
 
-            startingPos = _startingTargetOffset;
+            // Usar el offset inicial de la cámara actual
+            startingPos = _cameraStartingOffsets[_currentCamera];
 
             endPos += startingPos;
         }
@@ -145,7 +153,7 @@ public class CameraManager : MonoBehaviour
         else
         {
             startingPos = _positionComposer.TargetOffset;
-            endPos = _startingTargetOffset;
+            endPos = _cameraStartingOffsets[_currentCamera];
         }
 
         //handle the actual panning of the camera
