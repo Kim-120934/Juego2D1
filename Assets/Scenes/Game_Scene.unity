@@ -730,7 +730,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 4.5328727
+    OrthographicSize: 5.26
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1133,7 +1133,7 @@ PrefabInstance:
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.cameraOnLeft
       value: 
-      objectReference: {fileID: 791585892}
+      objectReference: {fileID: 1177112353}
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.panDirection
       value: 3
@@ -1141,7 +1141,7 @@ PrefabInstance:
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.cameraOnRight
       value: 
-      objectReference: {fileID: 1177112353}
+      objectReference: {fileID: 791585892}
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.panCameraOnContact
       value: 0
@@ -1396,7 +1396,7 @@ Transform:
   m_GameObject: {fileID: 791585890}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4303832, y: -1.074085, z: -9.928127}
+  m_LocalPosition: {x: 9.930384, y: 1.5209149, z: -9.928127}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1415,7 +1415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BoundingShape2D: {fileID: 2003703471}
-  Damping: 2
+  Damping: 0
   SlowingDistance: 3
   OversizeWindow:
     Enabled: 1
@@ -2338,13 +2338,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177112352}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BoundingShape2D: {fileID: 2003703471}
-  Damping: 2
+  Damping: 0
   SlowingDistance: 3
   OversizeWindow:
     Enabled: 1
@@ -2360,7 +2360,7 @@ Transform:
   m_GameObject: {fileID: 1177112352}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70.7, y: -8, z: -9.928127}
+  m_LocalPosition: {x: -0.5696168, y: -1.074085, z: -9.928127}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2391,7 +2391,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
-  Damping: {x: 1, y: 1, z: 1}
+  Damping: {x: 1, y: 0, z: 0}
   Lookahead:
     Enabled: 0
     Time: 0
@@ -2407,7 +2407,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1223332136}
   - component: {fileID: 1223332138}
-  - component: {fileID: 1223332137}
   m_Layer: 6
   m_Name: Square (12)
   m_TagString: Floor
@@ -2430,52 +2429,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1168414129}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.061}
---- !u!61 &1223332137
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223332135}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!212 &1223332138
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2675,19 +2628,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 299873945087059501, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: m_Size.x
-      value: 0.28878307
+      value: 0.3618374
       objectReference: {fileID: 0}
     - target: {fileID: 299873945087059501, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: m_Size.y
-      value: 6.8188543
+      value: 7.038005
       objectReference: {fileID: 0}
     - target: {fileID: 299873945087059501, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: m_Offset.x
-      value: -2.0385823
+      value: -2.0020552
       objectReference: {fileID: 0}
     - target: {fileID: 299873945087059501, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: m_Offset.y
-      value: 0.8781762
+      value: 0.9877515
       objectReference: {fileID: 0}
     - target: {fileID: 455412304575216480, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2736,7 +2689,7 @@ PrefabInstance:
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.cameraOnLeft
       value: 
-      objectReference: {fileID: 791585892}
+      objectReference: {fileID: 421620683}
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.panDirection
       value: 1
@@ -2744,7 +2697,7 @@ PrefabInstance:
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.cameraOnRight
       value: 
-      objectReference: {fileID: 421620683}
+      objectReference: {fileID: 791585892}
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.panCameraOnContact
       value: 0
@@ -2752,6 +2705,10 @@ PrefabInstance:
     - target: {fileID: 6330494776440922068, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: m_Name
       value: Open and locked
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330494776440922068, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3971,7 +3928,7 @@ Transform:
   m_GameObject: {fileID: 1928751390}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3531775, y: -1.3259102, z: -10}
+  m_LocalPosition: {x: 5.1, y: -0.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4162,7 +4119,7 @@ Transform:
   m_GameObject: {fileID: 1929418100}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.4, y: -2.695, z: 0}
+  m_LocalPosition: {x: 4.1, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4231,9 +4188,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &1940858362
 GameObject:
@@ -4621,7 +4578,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 57.573177, y: -5.341913}
+  m_Offset: {x: 37.086426, y: -5.007168}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4631,7 +4588,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 96.85145, y: 7.7457237}
+  m_Size: {x: 55.877945, y: 7.544876}
   m_EdgeRadius: 0
 --- !u!61 &2003703470
 BoxCollider2D:
@@ -4730,37 +4687,37 @@ CompositeCollider2D:
         Y: -21394214
   - m_Collider: {fileID: 2003703469}
     m_ColliderPaths:
-    - - X: 1059988992
-        Y: -14690514
+    - - X: 650253952
+        Y: -12347298
       - X: 91474536
-        Y: -14690514
+        Y: -12347298
       - X: 91474536
-        Y: -92147752
-      - X: 1059988992
-        Y: -92147752
+        Y: -87796056
+      - X: 650253952
+        Y: -87796056
   - m_Collider: {fileID: 2003703473}
     m_ColliderPaths:
-    - - X: 1063995840
+    - - X: 1062264576
         Y: 46271764
       - X: 648782208
         Y: 46271764
       - X: 648782208
         Y: -151327136
-      - X: 1063995840
+      - X: 1062264576
         Y: -151327136
   m_CompositePaths:
     m_Paths:
-    - - {x: 106.39955, y: -15.132713}
-      - {x: 106.39955, y: 4.6271763}
+    - - {x: 106.226425, y: -15.132713}
+      - {x: 106.226425, y: 4.6271763}
       - {x: 64.87822, y: 4.627147}
-      - {x: 64.87819, y: -1.4690514}
-      - {x: 23.907917, y: -1.469022}
+      - {x: 64.87819, y: -1.2347298}
+      - {x: 23.907917, y: -1.2347004}
       - {x: 23.907888, y: 9.976655}
       - {x: -15.414738, y: 9.976625}
       - {x: -15.414709, y: -2.1394215}
       - {x: 9.147453, y: -2.1394508}
-      - {x: 9.147483, y: -9.214775}
-      - {x: 64.87822, y: -9.214805}
+      - {x: 9.147483, y: -8.779606}
+      - {x: 64.87822, y: -8.779635}
       - {x: 64.87825, y: -15.132713}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
@@ -4815,7 +4772,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 1
   m_CompositeOrder: 0
-  m_Offset: {x: 85.6389, y: -5.2527685}
+  m_Offset: {x: 85.55234, y: -5.2527685}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4825,7 +4782,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 41.521362, y: 19.75989}
+  m_Size: {x: 41.348244, y: 19.75989}
   m_EdgeRadius: 0
 --- !u!1 &2006270386
 GameObject:
@@ -4852,7 +4809,7 @@ Transform:
   m_GameObject: {fileID: 2006270386}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 117.9, y: -12.2, z: -10}
+  m_LocalPosition: {x: 118.04, y: -12.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4960,7 +4917,7 @@ PrefabInstance:
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.cameraOnLeft
       value: 
-      objectReference: {fileID: 1177112353}
+      objectReference: {fileID: 791585892}
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.panDirection
       value: 1
@@ -4968,7 +4925,7 @@ PrefabInstance:
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.cameraOnRight
       value: 
-      objectReference: {fileID: 791585892}
+      objectReference: {fileID: 1177112353}
     - target: {fileID: 3427143262953656585, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
       propertyPath: customInspectorObjects.panCameraOnContact
       value: 0
