@@ -112,12 +112,14 @@ public class EnemyPatrol : MonoBehaviour
                 break;
         }
     }
-    
+
     private void Patrol()
     {
         if (isWaiting)
         {
-            // Esperar en el punto
+            // Asegurar que está completamente detenido mientras espera
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
             waitTimer -= Time.deltaTime;
             if (waitTimer <= 0)
             {
@@ -127,19 +129,28 @@ public class EnemyPatrol : MonoBehaviour
             }
             return;
         }
-        
-        // Moverse hacia el punto objetivo
-        MoveTowards(currentTarget.position, patrolSpeed);
-        
-        // Verificar si llegó al punto
-        if (Vector2.Distance(transform.position, currentTarget.position) < 0.2f)
+
+        // Calcular distancia al objetivo
+        float distance = Vector2.Distance(transform.position, currentTarget.position);
+
+        // Si está muy cerca, detenerse completamente
+        if (distance < 0.3f)  // Aumentado de 0.2f a 0.3f
         {
             isWaiting = true;
             waitTimer = waitTimeAtPoint;
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            rb.linearVelocity = Vector2.zero;  // Detener completamente
+
+            // Opcional: Snapear a la posición exacta del punto
+            Vector3 targetPos = currentTarget.position;
+            transform.position = new Vector3(targetPos.x, transform.position.y, transform.position.z);
+
+            return;
         }
+
+        // Moverse hacia el punto objetivo
+        MoveTowards(currentTarget.position, patrolSpeed);
     }
-    
+
     private void Chase()
     {
         if (player == null)
