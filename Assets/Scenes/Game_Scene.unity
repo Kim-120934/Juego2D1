@@ -4319,6 +4319,7 @@ MonoBehaviour:
   _frontWallCheckPoint: {fileID: 1155565514}
   _backWallCheckPoint: {fileID: 1123837992}
   _wallCheckSize: {x: 0.5, y: 1}
+  _animator: {fileID: 1929418106}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -4473,7 +4474,7 @@ Animator:
   m_GameObject: {fileID: 1929418100}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5f82b4672e7730c4fa9ced3a64cbce40, type: 2}
+  m_Controller: {fileID: 9100000, guid: dc7f726600a225e4da36e815daec3ddc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

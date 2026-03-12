@@ -42,7 +42,7 @@ public class HollowKnightMovement : MonoBehaviour
     //Attack
     private float _attackStartTime;
     private Vector2 _attackDirection;
-    #endregion
+   
     
     //Health
     public int CurrentHealth { get; private set; }
@@ -50,6 +50,8 @@ public class HollowKnightMovement : MonoBehaviour
     public bool IsInvulnerable { get; private set; }
     private float _invulnerabilityTimer;
     private float _fallSpeedYDampingChangeThreshold;
+    #endregion
+
     #region INPUT PARAMETERS
     private Vector2 _moveInput;
     public float LastPressedJumpTime { get; private set; }
@@ -65,6 +67,7 @@ public class HollowKnightMovement : MonoBehaviour
     [SerializeField] private Transform _frontWallCheckPoint;
     [SerializeField] private Transform _backWallCheckPoint;
     [SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
+    [SerializeField] private Animator _animator;
     #endregion
 
     #region LAYERS & TAGS
@@ -157,8 +160,17 @@ public class HollowKnightMovement : MonoBehaviour
         #region INPUT HANDLER
         _moveInput.x = Input.GetAxisRaw("Horizontal");
         _moveInput.y = Input.GetAxisRaw("Vertical");
+        float input = Input.GetAxisRaw("Horizontal");
+        if (input != 0)
+        {
+            _animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            _animator.SetBool("isRunning", false);
+        }
 
-        if (_moveInput.x != 0)
+            if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
 
         // Jump Input (Space, C, J, W, Up Arrow)
