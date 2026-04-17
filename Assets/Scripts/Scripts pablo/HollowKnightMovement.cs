@@ -18,6 +18,7 @@ public class HollowKnightMovement : MonoBehaviour
     public bool IsDashing { get; private set; }
     public bool IsAttacking { get; private set; }
 
+    public Vector2 platformVelocity = Vector2.zero;
     // Timers
     public float LastOnGroundTime { get; private set; }
     public float LastOnWallTime { get; private set; }
@@ -483,9 +484,8 @@ public class HollowKnightMovement : MonoBehaviour
         }
         #endregion
 
-        float speedDif = targetSpeed - currentVelX;
+        float speedDif = (targetSpeed + platformVelocity.x) - RB.linearVelocity.x;
         float movement = speedDif * accelRate;
-
         RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
     }
 
