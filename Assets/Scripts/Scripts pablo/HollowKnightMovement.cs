@@ -43,9 +43,12 @@ public class HollowKnightMovement : MonoBehaviour
     //Attack
     private float _attackStartTime;
     private Vector2 _attackDirection;
-   
-    
+
+
     //Health
+    [Header("Lives System")]
+    public int maxLives = 3;
+    public int currentLives;
     public int CurrentHealth { get; private set; }
     public int MaxHealth { get; private set; }
     public bool IsInvulnerable { get; private set; }
@@ -97,8 +100,9 @@ public class HollowKnightMovement : MonoBehaviour
         IsFacingRight = true;
         _airJumpsLeft = Data.airJumpsAmount;
         _dashesLeft = Data.dashAmount;
-    
-       // Initialize Health 
+
+        // Initialize Health 
+        currentLives = maxLives;
         MaxHealth = Data.maxHealth;
         CurrentHealth = MaxHealth;
         IsInvulnerable = false;
@@ -813,7 +817,7 @@ private void DetectAndHitEnemies()
         
         // Aplicar knockback
         ApplyKnockback(damageSourcePosition);
-        
+
         // Efectos visuales/sonido aquí
         // PlayHurtSound();
         // PlayHurtAnimation();
@@ -821,10 +825,39 @@ private void DetectAndHitEnemies()
         // Verificar muerte
         if (CurrentHealth <= 0)
         {
-            Die();
+            LoseLife();
+        }
+
+    }
+    private void LoseLife()
+    {
+        currentLives--;
+
+        Debug.Log("Has perdido una vida. Vidas restantes: " + currentLives);
+
+        if (currentLives <= 0)
+        {
+            GameOver();
+        }
+        else
+        {
+            Respawn();
         }
     }
-    
+    private void GameOver()
+    {
+        Debug.Log("GAME OVER");
+
+        RB.linearVelocity = Vector2.zero;
+
+        // Aquí luego puedes hacer:
+        // - pantalla de game over
+        // - reiniciar escena
+        // - menú
+
+        transform.position = Vector3.zero; // temporal
+        currentLives = maxLives;
+    }
     private void ApplyKnockback(Vector2 damageSourcePosition)
     {
         // Calcular dirección del knockback (alejarse de la fuente de daño)
@@ -858,62 +891,37 @@ private void DetectAndHitEnemies()
         // PlayHealSound();
         // PlayHealParticles();
     }
-    
-    private void Die()
+   
+    private Transform respawnPoint;
+
+    public void SetRespawnPoint(Transform newRespawnPoint)
     {
-        Debug.Log("¡Has muerto!");
-        
-        // Detener movimiento
-        RB.linearVelocity = Vector2.zero;
-        
-        // Desactivar controles (opcional)
-        // enabled = false;
-        
-        // Animación de muerte
-        // AnimHandler.SetTrigger("Death");
-        
-        // Esperar y respawnear
-        StartCoroutine(nameof(RespawnAfterDelay));
+        respawnPoint = newRespawnPoint;
+        Debug.Log("Checkpoint guardado: " + newRespawnPoint.name);
     }
-    
-    private IEnumerator RespawnAfterDelay()
-    {
-        yield return new WaitForSeconds(Data.respawnDelay);
-        
-        Respawn();
-    }
-    
+
     private void Respawn()
     {
-        // Restaurar vida
         CurrentHealth = MaxHealth;
         IsInvulnerable = true;
         _invulnerabilityTimer = Data.invulnerabilityDuration;
-        
-        // Teleport al último checkpoint (por ahora, posición inicial)
-        if (Data.respawnPoint != null)
+
+        Vector3 spawnPos = transform.position; // fallback seguro
+
+        if (respawnPoint != null)
         {
-            transform.position = Data.respawnPoint.position;
+            spawnPos = respawnPoint.position;
         }
         else
         {
-            // Si no hay checkpoint, respawn en posición actual + arriba
-            transform.position = new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z);
+            Debug.LogWarning("RespawnPoint es NULL! usando posición actual");
         }
-        
-        // Resetear velocidad
+
+        transform.position = spawnPos;
         RB.linearVelocity = Vector2.zero;
-        
-        // Restaurar controles
-        // enabled = true;
-        
-        Debug.Log("¡Respawneado!");
-    }
-    
-    public void SetRespawnPoint(Transform newRespawnPoint)
-    {
-        Data.respawnPoint = newRespawnPoint;
-        Debug.Log($"Nuevo punto de respawn: {newRespawnPoint.position}");
+
+        Debug.Log("Respawn realizado en: " + spawnPos);
+
     }
     #endregion
 
