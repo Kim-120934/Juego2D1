@@ -14,7 +14,7 @@ public class Checkpoint : MonoBehaviour
 
                 Debug.Log(" Checkpoint activado: " + gameObject.name +
                           " POS: " + transform.position);
-                Debug.Log("CHECKPOINT SET EN: " + gameObject.GetInstanceID());
+
             }
         }
     }

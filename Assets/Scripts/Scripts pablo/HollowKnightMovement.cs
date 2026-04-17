@@ -48,7 +48,9 @@ public class HollowKnightMovement : MonoBehaviour
     //Health
     [Header("Lives System")]
     public int maxLives = 3;
-    public int currentLives;
+    public int currentLives=3;
+    public int maxHitsPerLife = 5;
+    public int currentHits;
     public int CurrentHealth { get; private set; }
     public int MaxHealth { get; private set; }
     public bool IsInvulnerable { get; private set; }
@@ -102,6 +104,7 @@ public class HollowKnightMovement : MonoBehaviour
         _dashesLeft = Data.dashAmount;
 
         // Initialize Health 
+        currentHits = maxHitsPerLife;
         currentLives = maxLives;
         MaxHealth = Data.maxHealth;
         CurrentHealth = MaxHealth;
@@ -801,39 +804,28 @@ private void DetectAndHitEnemies()
     #region HEALTH METHODS 
     public void TakeDamage(int damage, Vector2 damageSourcePosition)
     {
-        // No recibir daño si estamos invulnerables o muertos
-        if (IsInvulnerable || CurrentHealth <= 0)
+        if (IsInvulnerable)
             return;
-        
-        // Reducir vida
-        CurrentHealth -= damage;
-        CurrentHealth = Mathf.Max(CurrentHealth, 0);
-        
-        Debug.Log($"¡Daño recibido! Vida: {CurrentHealth}/{MaxHealth}");
-        
-        // Activar invulnerabilidad
+
+        currentHits -= damage;
+
+        Debug.Log($"Hit recibido. Hits restantes: {currentHits}");
+
         IsInvulnerable = true;
         _invulnerabilityTimer = Data.invulnerabilityDuration;
-        
-        // Aplicar knockback
+
         ApplyKnockback(damageSourcePosition);
 
-        // Efectos visuales/sonido aquí
-        // PlayHurtSound();
-        // PlayHurtAnimation();
-
-        // Verificar muerte
-        if (CurrentHealth <= 0)
+        if (currentHits <= 0)
         {
             LoseLife();
         }
-
     }
     private void LoseLife()
     {
         currentLives--;
 
-        Debug.Log("Has perdido una vida. Vidas restantes: " + currentLives);
+        Debug.Log("Pierdes una vida. Vidas restantes: " + currentLives);
 
         if (currentLives <= 0)
         {
@@ -841,6 +833,7 @@ private void DetectAndHitEnemies()
         }
         else
         {
+            currentHits = maxHitsPerLife; // RESET DE BARRA
             Respawn();
         }
     }
@@ -848,15 +841,11 @@ private void DetectAndHitEnemies()
     {
         Debug.Log("GAME OVER");
 
-        RB.linearVelocity = Vector2.zero;
-
-        // Aquí luego puedes hacer:
-        // - pantalla de game over
-        // - reiniciar escena
-        // - menú
-
-        transform.position = Vector3.zero; // temporal
         currentLives = maxLives;
+        currentHits = maxHitsPerLife;
+
+        transform.position = Vector3.zero;
+        RB.linearVelocity = Vector2.zero;
     }
     private void ApplyKnockback(Vector2 damageSourcePosition)
     {
