@@ -7,6 +7,8 @@ TagManager:
   - Floor
   - Plataforma Movil
   - plataformaMovil
+  - Door
+  - Destructible
   layers:
   - Default
   - TransparentFX

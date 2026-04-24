@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class HollowKnightMovement : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class HollowKnightMovement : MonoBehaviour
     #endregion
 
     #region STATE PARAMETERS
+
+    public bool hasProjectile = false;
     public bool IsFacingRight { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsWallSliding { get; private set; }
@@ -79,6 +82,9 @@ public class HollowKnightMovement : MonoBehaviour
     [SerializeField] private Transform _backWallCheckPoint;
     [SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
     [SerializeField] private Animator _animator;
+    [Header("Projectile")]
+    [SerializeField] private GameObject projectilePrefab;
+    private CinemachineImpulseSource _impulseSource;
     #endregion
 
     #region LAYERS & TAGS
@@ -99,6 +105,7 @@ public class HollowKnightMovement : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         AnimHandler = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Start()
@@ -213,6 +220,16 @@ public class HollowKnightMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetMouseButtonDown(0))
         {
             OnAttackInput();
+        }
+        // Shoot Input (Q)
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ShootProjectile();
+        }
+        // Interact Input (F)
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            OnInteractInput();
         }
         // TESTING - Recibir daño (TEMPORAL)  - Presiona H para simular daño desde la izquierda
         if (Input.GetKeyDown(KeyCode.H))
@@ -421,6 +438,12 @@ public class HollowKnightMovement : MonoBehaviour
     }
 
     #region INPUT CALLBACKS
+    public void OnInteractInput()
+    {
+        NPC npc = FindObjectOfType<NPC>();
+        if (npc != null)
+            npc.Interact();
+    }
     public void OnJumpInput()
     {
         LastPressedJumpTime = Data.jumpInputBufferTime;
@@ -713,6 +736,22 @@ public class HollowKnightMovement : MonoBehaviour
 
 
     #region ATTACK METHODS 
+    private void ShootProjectile()
+    {
+        if (!hasProjectile) return;
+
+        Vector2 direction = IsFacingRight ? Vector2.right : Vector2.left;
+        GameObject proj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+
+        SpriteRenderer sr = proj.GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.flipX = !IsFacingRight;
+
+        proj.GetComponent<Projectile>().Init(direction);
+
+        if (_impulseSource != null)
+            _impulseSource.GenerateImpulse();
+    }
     private void DetermineAttackDirection()
     {
         // Determinar dirección del ataque basado en input (4 direcciones como HK)
@@ -939,6 +978,11 @@ private void DetectAndHitEnemies()
 
         Debug.Log("Respawn realizado en: " + spawnPos);
 
+    }
+    public void UnlockProjectile()
+    {
+        hasProjectile = true;
+        Debug.Log("Proyectil desbloqueado!");
     }
     #endregion
 

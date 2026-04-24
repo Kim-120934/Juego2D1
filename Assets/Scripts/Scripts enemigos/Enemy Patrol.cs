@@ -251,7 +251,7 @@ public class EnemyPatrol : MonoBehaviour
             playerMovement.TakeDamage(contactDamage, transform.position);
             lastDamageTime = Time.time;
             
-            Debug.Log($"{gameObject.name} hizo {contactDamage} de daño al jugador");
+            
         }
     }
     
