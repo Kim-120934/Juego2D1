@@ -29,6 +29,7 @@ public class HollowKnightMovement : MonoBehaviour
     private bool _isJumpCut;
     private bool _isJumpFalling;
     private int _airJumpsLeft;
+    private bool _isGrounded;
 
     // Wall
     private int _lastWallJumpDir;
@@ -166,6 +167,7 @@ public class HollowKnightMovement : MonoBehaviour
         #endregion
 
         #region INPUT HANDLER
+        _animator.SetBool("isGrounded", _isGrounded);
         _moveInput.x = Input.GetAxisRaw("Horizontal");
         _moveInput.y = Input.GetAxisRaw("Vertical");
         float input = Input.GetAxisRaw("Horizontal");
@@ -221,6 +223,11 @@ public class HollowKnightMovement : MonoBehaviour
             Heal(1);
             Debug.Log("TEST: Curado");
         }
+        bool grounded = LastOnGroundTime > 0;
+        bool falling = _isJumpFalling && !IsJumping && RB.linearVelocity.y < 0 && !grounded;
+
+        _animator.SetBool("isFalling", falling);
+        _animator.SetBool("isGrounded", grounded);
         #endregion
 
         #region COLLISION CHECKS
@@ -516,6 +523,7 @@ public class HollowKnightMovement : MonoBehaviour
         float force = Data.jumpForce;
         if (RB.linearVelocity.y < 0)
             force -= RB.linearVelocity.y;
+        _isGrounded = false;
 
         RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         #endregion
@@ -523,8 +531,18 @@ public class HollowKnightMovement : MonoBehaviour
         // Play jump effect
         if (_jumpEffect != null)
             _jumpEffect.Play();
+        _animator.SetTrigger("Jump");
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            _isGrounded = true;
+            // Play land effect
+            if (_landEffect != null)
+                _landEffect.Play();
+        }
+    }
     private void WallJump(int dir)
     {
         LastPressedJumpTime = 0;
