@@ -57,17 +57,15 @@ public class EnemyHealth : MonoBehaviour
             spriteRenderer.color = Color.white;
         }
     }
-    
+
     private void Die()
     {
         Debug.Log($"{gameObject.name} ha muerto!");
-        
-        // Aquí puedes añadir:
-        // - Animación de muerte
-        // - Partículas
-        // - Sonido
-        // - Drop de items/alma
-        
+
+        HollowKnightMovement player = FindObjectOfType<HollowKnightMovement>();
+        if (player != null)
+            player.GainSoul(1);
+
         Destroy(gameObject);
     }
 }

@@ -52,6 +52,10 @@ public class HollowKnightMovement : MonoBehaviour
     public int currentLives=3;
     public int maxHitsPerLife = 5;
     public int currentHits;
+    private bool _hasLanded = false;
+    [Header("Soul System")]
+    public int maxSoul = 4;
+    public int currentSoul = 0;
     public int CurrentHealth { get; private set; }
     public int MaxHealth { get; private set; }
     public bool IsInvulnerable { get; private set; }
@@ -886,19 +890,25 @@ private void DetectAndHitEnemies()
     
     public void Heal(int amount)
     {
-        if (CurrentHealth >= MaxHealth)
+        if (currentSoul <= 0)
             return;
-        
-        CurrentHealth += amount;
-        CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
-        
-        Debug.Log($"¡Curado! Vida: {CurrentHealth}/{MaxHealth}");
-        
-        // Efectos visuales/sonido aquí
-        // PlayHealSound();
-        // PlayHealParticles();
+
+        if (currentHits >= maxHitsPerLife)
+            return;
+
+        currentSoul--;
+        currentHits += amount;
+        currentHits = Mathf.Min(currentHits, maxHitsPerLife);
+
+        Debug.Log($"¡Curado! Hits: {currentHits}/{maxHitsPerLife} Alma: {currentSoul}/{maxSoul}");
     }
-   
+    public void GainSoul(int amount)
+    {
+        currentSoul += amount;
+        currentSoul = Mathf.Min(currentSoul, maxSoul);
+        Debug.Log($"Alma ganada: {currentSoul}/{maxSoul}");
+    }
+
     private Transform respawnPoint;
 
     public void SetRespawnPoint(Transform newRespawnPoint)
