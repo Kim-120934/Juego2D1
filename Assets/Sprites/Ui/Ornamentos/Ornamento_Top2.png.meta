@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 670261150e611b841b8e436f8f5f096b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 109524691187646526
+    second: Ornamento_Top2_0
+  - first:
+      213: 9130003770236807997
+    second: Ornamento_Top2_1
+  - first:
+      213: -9188210279107598352
+    second: Ornamento_Top2_2
+  - first:
+      213: -6010543746885578615
+    second: Ornamento_Top2_3
+  - first:
+      213: -6666204354808901485
+    second: Ornamento_Top2_4
+  - first:
+      213: 4219661403248767714
+    second: Ornamento_Top2_5
+  - first:
+      213: -712757903338081432
+    second: Ornamento_Top2_6
+  - first:
+      213: 8517253768211848110
+    second: Ornamento_Top2_7
+  - first:
+      213: 7832655709763404506
+    second: Ornamento_Top2_8
+  - first:
+      213: 7244976046440773098
+    second: Ornamento_Top2_9
+  - first:
+      213: -5062689459399942242
+    second: Ornamento_Top2_10
+  - first:
+      213: -2220895971873580293
+    second: Ornamento_Top2_11
+  - first:
+      213: 6650690576340752940
+    second: Ornamento_Top2_12
+  - first:
+      213: -1711206896233464776
+    second: Ornamento_Top2_13
+  - first:
+      213: 9140381937119373483
+    second: Ornamento_Top2_14
+  - first:
+      213: -62873043506238332
+    second: Ornamento_Top2_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ornamento_Top2_0
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 70
+        width: 63
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e30cf58502c158100800000000000000
+      internalID: 109524691187646526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_1
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 70
+        width: 153
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3b21f26e0a44be70800000000000000
+      internalID: 9130003770236807997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_2
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 114
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f7e230be6bec7080800000000000000
+      internalID: -9188210279107598352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_3
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 118
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98090f3be42469ca0800000000000000
+      internalID: -6010543746885578615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_4
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 70
+        width: 71
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39014775572ec73a0800000000000000
+      internalID: -6666204354808901485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_5
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 71
+        width: 63
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e2b11580bf3f8a30800000000000000
+      internalID: 4219661403248767714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_6
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 20
+        width: 134
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8637ea89676cb16f0800000000000000
+      internalID: -712757903338081432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_7
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 54
+        width: 33
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eabdf140d2d533670800000000000000
+      internalID: 8517253768211848110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_8
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 54
+        width: 32
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad2026c6ede23bc60800000000000000
+      internalID: 7832655709763404506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_9
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 43
+        width: 45
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae5f05624535b8460800000000000000
+      internalID: 7244976046440773098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_10
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 0
+        width: 48
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9f1a5c82c6bdb9b0800000000000000
+      internalID: -5062689459399942242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_11
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 77
+        width: 26
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfa116161eacd21e0800000000000000
+      internalID: -2220895971873580293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_12
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 39
+        width: 50
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2a14d1a7dffb4c50800000000000000
+      internalID: 6650690576340752940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_13
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 54
+        width: 31
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83c3ecce4629048e0800000000000000
+      internalID: -1711206896233464776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_14
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 54
+        width: 33
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba8a569a1f829de70800000000000000
+      internalID: 9140381937119373483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ornamento_Top2_15
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 20
+        width: 134
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48cecdfcc41a02ff0800000000000000
+      internalID: -62873043506238332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Ornamento_Top2_0: 109524691187646526
+      Ornamento_Top2_1: 9130003770236807997
+      Ornamento_Top2_10: -5062689459399942242
+      Ornamento_Top2_11: -2220895971873580293
+      Ornamento_Top2_12: 6650690576340752940
+      Ornamento_Top2_13: -1711206896233464776
+      Ornamento_Top2_14: 9140381937119373483
+      Ornamento_Top2_15: -62873043506238332
+      Ornamento_Top2_2: -9188210279107598352
+      Ornamento_Top2_3: -6010543746885578615
+      Ornamento_Top2_4: -6666204354808901485
+      Ornamento_Top2_5: 4219661403248767714
+      Ornamento_Top2_6: -712757903338081432
+      Ornamento_Top2_7: 8517253768211848110
+      Ornamento_Top2_8: 7832655709763404506
+      Ornamento_Top2_9: 7244976046440773098
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

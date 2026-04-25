@@ -14,6 +14,9 @@ public class DialogueUI : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float letterDelay = 0.05f;
+    [SerializeField] private float fadeDuration = 0.3f;
+
+    private CanvasGroup _canvasGroup;
 
     private string[] _lines;
     private int _currentLine = 0;
@@ -22,9 +25,13 @@ public class DialogueUI : MonoBehaviour
     public bool IsDialogueActive => _dialogueActive;
     private System.Action _onFinished;
 
+    [Header("HUD")]
+    [SerializeField] private CanvasGroup hudCanvasGroup;
+
     private void Awake()
     {
         instance = this;
+        _canvasGroup = dialogueBox.GetComponent<CanvasGroup>();
         dialogueBox.SetActive(false);
     }
 
@@ -34,9 +41,8 @@ public class DialogueUI : MonoBehaviour
         _currentLine = 0;
         _onFinished = onFinished;
         _dialogueActive = true;
-        dialogueBox.SetActive(true);
         continueIndicator.SetActive(false);
-        StartCoroutine(TypeLine(_lines[_currentLine]));
+        StartCoroutine(FadeInAndType());
     }
 
     public void NextLine()
@@ -83,6 +89,42 @@ public class DialogueUI : MonoBehaviour
     private void EndDialogue()
     {
         _dialogueActive = false;
+        StartCoroutine(FadeOut());
+    }
+
+    private IEnumerator FadeInAndType()
+    {
+        dialogueBox.SetActive(true);
+        _canvasGroup.alpha = 0f;
+        float timer = 0f;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            _canvasGroup.alpha = timer / fadeDuration;
+            if (hudCanvasGroup != null)
+                hudCanvasGroup.alpha = 1f - (timer / fadeDuration);
+            yield return null;
+        }
+        _canvasGroup.alpha = 1f;
+        if (hudCanvasGroup != null)
+            hudCanvasGroup.alpha = 0f;
+        StartCoroutine(TypeLine(_lines[_currentLine]));
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float timer = 0f;
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            _canvasGroup.alpha = 1f - (timer / fadeDuration);
+            if (hudCanvasGroup != null)
+                hudCanvasGroup.alpha = timer / fadeDuration;
+            yield return null;
+        }
+        _canvasGroup.alpha = 0f;
+        if (hudCanvasGroup != null)
+            hudCanvasGroup.alpha = 1f;
         dialogueBox.SetActive(false);
         _onFinished?.Invoke();
     }
