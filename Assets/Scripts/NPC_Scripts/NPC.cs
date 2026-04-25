@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
+    public enum UnlockType { Projectile, DoubleJump }
+
     [Header("Interacción")]
-    [SerializeField] private float interactRange = 2f;
     [SerializeField] private string[] dialogueLines;
+    [SerializeField] private UnlockType unlockType;
 
     private bool _playerInRange = false;
     private bool _dialogueFinished = false;
@@ -45,8 +47,11 @@ public class NPC : MonoBehaviour
         if (_currentLine >= dialogueLines.Length)
         {
             _dialogueFinished = true;
-            _player.UnlockProjectile();
-            Debug.Log("¡Proyectil desbloqueado!");
+
+            if (unlockType == UnlockType.Projectile)
+                _player.UnlockProjectile();
+            else if (unlockType == UnlockType.DoubleJump)
+                _player.UnlockDoubleJump();
         }
     }
 }

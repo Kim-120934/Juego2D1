@@ -15,6 +15,8 @@ public class HollowKnightMovement : MonoBehaviour
     #region STATE PARAMETERS
 
     public bool hasProjectile = false;
+
+    public bool hasDoubleJump = false;
     public bool IsFacingRight { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsWallSliding { get; private set; }
@@ -261,10 +263,9 @@ public class HollowKnightMovement : MonoBehaviour
             {
                 LastOnGroundTime = Data.coyoteTime;
 
-                // Reset air jumps and dash on landing
                 if (!wasGrounded)
                 {
-                    _airJumpsLeft = Data.airJumpsAmount;
+                    _airJumpsLeft = hasDoubleJump ? 1 : 0;
 
                     // Play land effect
                     if (_landEffect != null)
@@ -440,9 +441,11 @@ public class HollowKnightMovement : MonoBehaviour
     #region INPUT CALLBACKS
     public void OnInteractInput()
     {
-        NPC npc = FindObjectOfType<NPC>();
-        if (npc != null)
+        NPC[] npcs = FindObjectsOfType<NPC>();
+        foreach (NPC npc in npcs)
+        {
             npc.Interact();
+        }
     }
     public void OnJumpInput()
     {
@@ -690,7 +693,7 @@ public class HollowKnightMovement : MonoBehaviour
 
     private bool CanAirJump()
     {
-        return _airJumpsLeft > 0 && LastOnGroundTime <= 0 && !IsJumping;
+        return hasDoubleJump && _airJumpsLeft > 0 && LastOnGroundTime <= 0 && !IsJumping;
     }
 
     private bool CanWallJump()
@@ -983,6 +986,13 @@ private void DetectAndHitEnemies()
     {
         hasProjectile = true;
         Debug.Log("Proyectil desbloqueado!");
+    }
+
+    public void UnlockDoubleJump()
+    {
+        hasDoubleJump = true;
+        _airJumpsLeft = 1;
+        Debug.Log("¡Doble salto desbloqueado!");
     }
     #endregion
 
