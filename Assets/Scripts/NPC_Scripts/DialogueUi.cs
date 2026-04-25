@@ -79,6 +79,7 @@ public class DialogueUI : MonoBehaviour
         foreach (char c in line)
         {
             dialogueText.text += c;
+            AudioManager.instance.PlaySFX(AudioManager.instance.dialogueBlipSFX);
             yield return new WaitForSeconds(letterDelay);
         }
 

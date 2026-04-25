@@ -24,6 +24,7 @@ public class Projectile : MonoBehaviour
             Door door = other.GetComponent<Door>();
             if (door != null)
                 door.OpenDoor();
+            AudioManager.instance.PlaySFX(AudioManager.instance.projectileImpactSFX);
             Destroy(gameObject);
         }
         else if (other.CompareTag("Destructible"))
@@ -38,6 +39,7 @@ public class Projectile : MonoBehaviour
             EnemyHealth enemy = other.GetComponent<EnemyHealth>();
             if (enemy != null)
                 enemy.TakeDamage(1, _direction);
+            AudioManager.instance.PlaySFX(AudioManager.instance.projectileImpactSFX);
             Destroy(gameObject);
         }
     }

@@ -333,6 +333,7 @@ public class HollowKnightMovement : MonoBehaviour
                 _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
                 WallJump(_lastWallJumpDir);
             }
+
         }
         #endregion
 
@@ -568,6 +569,7 @@ public class HollowKnightMovement : MonoBehaviour
         if (_jumpEffect != null)
             _jumpEffect.Play();
         _animator.SetTrigger("Jump");
+        AudioManager.instance.PlaySFX(AudioManager.instance.jumpSFX);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -632,6 +634,7 @@ public class HollowKnightMovement : MonoBehaviour
         // Play dash effect
         if (_dashEffect != null)
             _dashEffect.Play();
+        AudioManager.instance.PlaySFX(AudioManager.instance.dashSFX);
 
         // Dash attack phase - maintain constant velocity
         while (Time.time - startTime <= Data.dashAttackTime)
@@ -760,6 +763,7 @@ public class HollowKnightMovement : MonoBehaviour
 
         if (_impulseSource != null)
             _impulseSource.GenerateImpulse();
+        AudioManager.instance.PlaySFX(AudioManager.instance.projectileShootSFX);
     }
     private void DetermineAttackDirection()
     {
@@ -882,6 +886,7 @@ private void DetectAndHitEnemies()
         Debug.Log($"Hit recibido. Hits restantes: {currentHits}");
 
         IsInvulnerable = true;
+        AudioManager.instance.PlaySFX(AudioManager.instance.takeDamageSFX);
         _invulnerabilityTimer = Data.invulnerabilityDuration;
 
         ApplyKnockback(damageSourcePosition);
@@ -945,6 +950,7 @@ private void DetectAndHitEnemies()
             return;
 
         currentSoul--;
+        AudioManager.instance.PlaySFX(AudioManager.instance.healSFX);
         currentHits += amount;
         currentHits = Mathf.Min(currentHits, maxHitsPerLife);
 

@@ -40,7 +40,8 @@ public class EnemyHealth : MonoBehaviour
         
         // Efecto visual de daño (parpadeo rápido)
         StartCoroutine(DamageFlash());
-        
+        AudioManager.instance.PlaySFX(AudioManager.instance.hitEnemySFX);
+
         // Verificar muerte
         if (currentHealth <= 0)
         {
@@ -58,13 +59,27 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    [Header("Coins")]
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private int minCoins = 2;
+    [SerializeField] private int maxCoins = 10;
+
     private void Die()
     {
         Debug.Log($"{gameObject.name} ha muerto!");
 
         HollowKnightMovement player = FindObjectOfType<HollowKnightMovement>();
+        AudioManager.instance.PlaySFX(AudioManager.instance.killEnemySFX);
         if (player != null)
             player.GainSoul(1);
+
+        // Soltar monedas
+        int coinAmount = Random.Range(minCoins, maxCoins + 1);
+        for (int i = 0; i < coinAmount; i++)
+        {
+            if (coinPrefab != null)
+                Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
 
         Destroy(gameObject);
     }
