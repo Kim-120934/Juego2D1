@@ -441,6 +441,12 @@ public class HollowKnightMovement : MonoBehaviour
     #region INPUT CALLBACKS
     public void OnInteractInput()
     {
+        if (DialogueUI.instance != null && DialogueUI.instance.IsDialogueActive)
+        {
+            DialogueUI.instance.NextLine();
+            return;
+        }
+
         NPC[] npcs = FindObjectsOfType<NPC>();
         foreach (NPC npc in npcs)
         {
