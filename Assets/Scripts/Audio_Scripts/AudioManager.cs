@@ -42,7 +42,18 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
+    }
+
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
@@ -59,17 +70,19 @@ public class AudioManager : MonoBehaviour
             PlayMusic(gameMusic);
     }
 
-    public void PlayMusic(AudioClip clip)
-    {
-        if (clip == null) return;
-        musicSource.clip = clip;
-        musicSource.Play();
-    }
-
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null) return;
+        if (sfxSource == null) return;
         sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        if (clip == null) return;
+        if (musicSource == null) return;
+        musicSource.clip = clip;
+        musicSource.Play();
     }
 
     public void SetMusicVolume(float volume)

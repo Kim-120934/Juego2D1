@@ -64,11 +64,13 @@ public class SceneTransition : MonoBehaviour
             yield return null;
         }
         fadePanel.alpha = 0f;
+        fadePanel.blocksRaycasts = false; 
     }
 
     private IEnumerator FadeOut()
     {
         fadePanel.alpha = 0f;
+        fadePanel.blocksRaycasts = true; 
         float timer = 0f;
         while (timer < fadeDuration)
         {

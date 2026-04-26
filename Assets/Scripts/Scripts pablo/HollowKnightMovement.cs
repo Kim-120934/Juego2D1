@@ -124,6 +124,26 @@ public class HollowKnightMovement : MonoBehaviour
         CurrentHealth = MaxHealth;
         IsInvulnerable = false;
         _fallSpeedYDampingChangeThreshold= CameraManager.instance._fallSpeedYDampingChangeThreshold;
+        if (SaveManager.instance != null && SlotMenu.CurrentSlot > 0)
+        {
+            SaveData data = SaveManager.instance.LoadGame(SlotMenu.CurrentSlot);
+            if (data != null)
+            {
+                currentLives = data.currentLives;
+                currentHits = data.currentHits;
+                currentSoul = data.currentSoul;
+                hasProjectile = data.hasProjectile;
+                hasDoubleJump = data.hasDoubleJump;
+
+                if (CoinManager.instance != null)
+                    CoinManager.instance.AddCoins(data.coins);
+
+                if (data.respawnX != 0 || data.respawnY != 0)
+                    transform.position = new Vector3(data.respawnX, data.respawnY, 0);
+
+                Debug.Log("Datos cargados correctamente");
+            }
+        }
     }
 
     private void Update()
@@ -232,6 +252,14 @@ public class HollowKnightMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             OnInteractInput();
+        }
+        // Volver al menu (Escape)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 1f;
+            
+            
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         // TESTING - Recibir daño (TEMPORAL)  - Presiona H para simular daño desde la izquierda
         if (Input.GetKeyDown(KeyCode.H))
@@ -478,6 +506,11 @@ public class HollowKnightMovement : MonoBehaviour
     #endregion
 
     #region GENERAL METHODS
+    private void PlaySFXSafe(AudioClip clip)
+    {
+        if (AudioManager.instance != null && clip != null)
+            AudioManager.instance.PlaySFX(clip);
+    }
     public void SetGravityScale(float scale)
     {
         // Avoid setting gravityScale every frame if unchanged
@@ -569,7 +602,7 @@ public class HollowKnightMovement : MonoBehaviour
         if (_jumpEffect != null)
             _jumpEffect.Play();
         _animator.SetTrigger("Jump");
-        AudioManager.instance.PlaySFX(AudioManager.instance.jumpSFX);
+        PlaySFXSafe(AudioManager.instance?.jumpSFX);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -634,7 +667,7 @@ public class HollowKnightMovement : MonoBehaviour
         // Play dash effect
         if (_dashEffect != null)
             _dashEffect.Play();
-        AudioManager.instance.PlaySFX(AudioManager.instance.dashSFX);
+        PlaySFXSafe(AudioManager.instance?.dashSFX);
 
         // Dash attack phase - maintain constant velocity
         while (Time.time - startTime <= Data.dashAttackTime)
@@ -763,7 +796,7 @@ public class HollowKnightMovement : MonoBehaviour
 
         if (_impulseSource != null)
             _impulseSource.GenerateImpulse();
-        AudioManager.instance.PlaySFX(AudioManager.instance.projectileShootSFX);
+        PlaySFXSafe(AudioManager.instance?.projectileShootSFX);
     }
     private void DetermineAttackDirection()
     {
@@ -808,9 +841,10 @@ public class HollowKnightMovement : MonoBehaviour
     
     // Esperar un frame para que la animación empiece
     yield return new WaitForSeconds(0.1f);
-    
-    // DETECTAR Y GOLPEAR ENEMIGOS
-    DetectAndHitEnemies();
+        PlaySFXSafe(AudioManager.instance?.attackSFX);
+
+        // DETECTAR Y GOLPEAR ENEMIGOS
+        DetectAndHitEnemies();
     
     // Duración del resto del ataque
     float remainingDuration = Data.attackDuration - 0.1f;
@@ -886,7 +920,7 @@ private void DetectAndHitEnemies()
         Debug.Log($"Hit recibido. Hits restantes: {currentHits}");
 
         IsInvulnerable = true;
-        AudioManager.instance.PlaySFX(AudioManager.instance.takeDamageSFX);
+        PlaySFXSafe(AudioManager.instance?.takeDamageSFX);
         _invulnerabilityTimer = Data.invulnerabilityDuration;
 
         ApplyKnockback(damageSourcePosition);
@@ -950,7 +984,7 @@ private void DetectAndHitEnemies()
             return;
 
         currentSoul--;
-        AudioManager.instance.PlaySFX(AudioManager.instance.healSFX);
+        PlaySFXSafe(AudioManager.instance?.healSFX);
         currentHits += amount;
         currentHits = Mathf.Min(currentHits, maxHitsPerLife);
 
@@ -963,7 +997,7 @@ private void DetectAndHitEnemies()
         Debug.Log($"Alma ganada: {currentSoul}/{maxSoul}");
     }
 
-    private Transform respawnPoint;
+    public Transform respawnPoint;
 
     public void SetRespawnPoint(Transform newRespawnPoint)
     {
