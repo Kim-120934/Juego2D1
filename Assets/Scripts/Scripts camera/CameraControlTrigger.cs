@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class CameraControlTrigger : MonoBehaviour
@@ -23,12 +22,11 @@ public class CameraControlTrigger : MonoBehaviour
         {
             Vector2 exitDirection = (collision.transform.position - _coll.bounds.center).normalized;
             if (customInspectorObjects.swapCameras && customInspectorObjects.cameraOnLeft != null && customInspectorObjects.cameraOnRight != null)
-            {                 //swap cameras
-               CameraManager.instance.SwapCamera(customInspectorObjects.cameraOnLeft, customInspectorObjects.cameraOnRight, exitDirection);
+            {
+                CameraManager.instance.SwapCamera(customInspectorObjects.cameraOnLeft, customInspectorObjects.cameraOnRight, exitDirection);
             }
             if (customInspectorObjects.panCameraOnContact)
             {
-                //pan the camera
                 CameraManager.instance.PanCameraOnContact(customInspectorObjects.panDistance, customInspectorObjects.panTime, customInspectorObjects.panDirection, false);
             }
         }
@@ -40,12 +38,10 @@ public class CameraControlTrigger : MonoBehaviour
         {
             if (customInspectorObjects.panCameraOnContact)
             {
-                //pan the camera
                 CameraManager.instance.PanCameraOnContact(customInspectorObjects.panDistance, customInspectorObjects.panTime, customInspectorObjects.panDirection, true);
             }
         }
     }
-
 
     [System.Serializable]
     public class CustomInspectorObjects
@@ -67,45 +63,5 @@ public class CameraControlTrigger : MonoBehaviour
         Down,
         Left,
         Right
-    }
-
-    [CustomEditor(typeof(CameraControlTrigger))]
-    public class MyScriptEditor : Editor
-    {
-        CameraControlTrigger cameraControlTrigger;
-
-
-        private void OnEnable()
-        {
-            cameraControlTrigger = (CameraControlTrigger)target;
-        }
-
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector();
-
-            if (cameraControlTrigger.customInspectorObjects.swapCameras)
-            {
-                cameraControlTrigger.customInspectorObjects.cameraOnLeft = EditorGUILayout.ObjectField("Camera on Left", cameraControlTrigger.customInspectorObjects.cameraOnLeft,
-                    typeof(CinemachineCamera), true) as CinemachineCamera;
-
-                cameraControlTrigger.customInspectorObjects.cameraOnRight = EditorGUILayout.ObjectField("Camera on Right", cameraControlTrigger.customInspectorObjects.cameraOnRight,
-                    typeof(CinemachineCamera), true) as CinemachineCamera;
-            }
-
-            if (cameraControlTrigger.customInspectorObjects.panCameraOnContact)
-            {
-                cameraControlTrigger.customInspectorObjects.panDirection = (PanDirection)EditorGUILayout.EnumPopup("Camera Pan Direction",
-                    cameraControlTrigger.customInspectorObjects.panDirection);
-
-                cameraControlTrigger.customInspectorObjects.panDistance = EditorGUILayout.FloatField("Pan Distance", cameraControlTrigger.customInspectorObjects.panDistance);
-                cameraControlTrigger.customInspectorObjects.panTime = EditorGUILayout.FloatField("Pan Time", cameraControlTrigger.customInspectorObjects.panTime);
-            }
-
-            if (GUI.changed)
-            {
-                EditorUtility.SetDirty(cameraControlTrigger);
-            }
-        }
     }
 }

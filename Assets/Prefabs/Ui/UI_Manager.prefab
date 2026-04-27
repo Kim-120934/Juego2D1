@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3087235311795272980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3441675740792766330}
+  - component: {fileID: 1205602693440112541}
+  - component: {fileID: 3420634127365345767}
+  - component: {fileID: 6703681795363887936}
+  m_Layer: 0
+  m_Name: UI_Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3441675740792766330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087235311795272980}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 348.40738, y: 303.65317, z: -3.2819483}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1205602693440112541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087235311795272980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a140d23fd33394291d34a6c6621fd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  heartFull: {fileID: 21300000, guid: 78c21149f8a4ac14d98c108180d8d5a9, type: 3}
+  heartEmpty: {fileID: 21300000, guid: c7edf06b693b9f344b8d0d74f6c1fa53, type: 3}
+  soulFlask: {fileID: 0}
+  soulSprites:
+  - {fileID: 21300000, guid: 858b01f927ddefe47a2743878e8bb529, type: 3}
+  - {fileID: 21300000, guid: c36850855e893e940a2052b1a040b07d, type: 3}
+  - {fileID: 21300000, guid: bb2ca91283495b5478761173a2809087, type: 3}
+  - {fileID: 21300000, guid: a171d5220904f2343838a92513f2b3e6, type: 3}
+  - {fileID: 21300000, guid: d4d4a4036690e594581fb61d237c4652, type: 3}
+--- !u!114 &3420634127365345767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087235311795272980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8fd04aba7f0e74488d1db2922b46fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueBox: {fileID: 0}
+  dialogueText: {fileID: 0}
+  continueIndicator: {fileID: 0}
+  letterDelay: 0.05
+  fadeDuration: 0.3
+  hudCanvasGroup: {fileID: 0}
+--- !u!114 &6703681795363887936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087235311795272980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ff4ab222fe3b24385bd5755296ecc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinText: {fileID: 0}
+  coinIcon: {fileID: 0}

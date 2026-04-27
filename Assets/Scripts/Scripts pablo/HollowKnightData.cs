@@ -30,8 +30,8 @@ public class HollowKnightData : ScriptableObject
     [Space(20)]
 
     [Header("Jump")]
-    public float jumpHeight = 4.2f;
-    public float jumpTimeToApex = 0.45f;
+    public float jumpHeight = 15f;
+    public float jumpTimeToApex = 1f;
     [HideInInspector] public float jumpForce;
 
     [Header("Jump Feel")]

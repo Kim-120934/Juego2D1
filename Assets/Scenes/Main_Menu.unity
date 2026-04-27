@@ -809,7 +809,7 @@ MonoBehaviour:
   killEnemySFX: {fileID: 8300000, guid: 2e6fd03b700fe1c4eba11e02fd94ecf1, type: 3}
   projectileShootSFX: {fileID: 8300000, guid: 4dae3dab0bdb1bf418cdb347a8ea68a4, type: 3}
   projectileImpactSFX: {fileID: 8300000, guid: e8f753b0c5453bc4d887e2e8a0bab98a, type: 3}
-  wallBreakSFX: {fileID: 8300000, guid: be132a95d267c8347b1d4be59af8c9c5, type: 3}
+  wallBreakSFX: {fileID: 8300000, guid: a77fb4ac7910b7242b1b18856c7038b4, type: 3}
   coinPickupSFX: {fileID: 8300000, guid: b41183de723c29a43ad39d2d1cfdcdf2, type: 3}
   npcVoiceSFX: {fileID: 8300000, guid: 37f2a4c691b459249a23e15963eec2ba, type: 3}
   dialogueBlipSFX: {fileID: 8300000, guid: 5fc2bb4f2065612478483be29955248a, type: 3}

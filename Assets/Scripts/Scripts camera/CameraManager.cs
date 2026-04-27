@@ -61,6 +61,8 @@ public class CameraManager : MonoBehaviour
 
     public void LerpYDamping(bool isPlayerFalling)
     {
+        if (_positionComposer == null) return;
+
         if (_lerpYPanCoroutine != null)
             StopCoroutine(_lerpYPanCoroutine);
 
@@ -69,6 +71,8 @@ public class CameraManager : MonoBehaviour
 
     private IEnumerator LerpYAction(bool isPlayerFalling)
     {
+        if (_positionComposer == null) yield break;
+
         IsLerpingYDamping = true;
 
         float startDampAmount = _positionComposer.Damping.y;

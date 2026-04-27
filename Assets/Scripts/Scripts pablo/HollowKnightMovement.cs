@@ -96,10 +96,11 @@ public class HollowKnightMovement : MonoBehaviour
 
     #region PARTICLE EFFECTS (Optional)
     [Header("Effects")]
-    [SerializeField] private ParticleSystem _dashEffect;
-    [SerializeField] private ParticleSystem _jumpEffect;
-    [SerializeField] private ParticleSystem _landEffect;
+    [SerializeField] private GameObject _dashEffectPrefab;
+    [SerializeField] private GameObject _jumpEffectPrefab;
+    [SerializeField] private GameObject _landEffectPrefab;
     [SerializeField] private TrailRenderer _dashTrail;
+    [SerializeField] private ParticleSystem _footstepLeaves;
     #endregion
 
     private void Awake()
@@ -212,8 +213,21 @@ public class HollowKnightMovement : MonoBehaviour
         {
             _animator.SetBool("isRunning", false);
         }
+        if (_footstepLeaves != null)
+        {
+            if (_moveInput.x != 0 && LastOnGroundTime > 0)
+            {
+                if (!_footstepLeaves.isPlaying)
+                    _footstepLeaves.Play();
+            }
+            else
+            {
+                if (_footstepLeaves.isPlaying)
+                    _footstepLeaves.Stop();
+            }
+        }
 
-            if (_moveInput.x != 0)
+        if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
 
         // Jump Input (Space, C, J, W, Up Arrow)
@@ -296,8 +310,7 @@ public class HollowKnightMovement : MonoBehaviour
                     _airJumpsLeft = hasDoubleJump ? 1 : 0;
 
                     // Play land effect
-                    if (_landEffect != null)
-                        _landEffect.Play();
+                    SpawnEffect(_landEffectPrefab);
                 }
             }
 
@@ -506,10 +519,39 @@ public class HollowKnightMovement : MonoBehaviour
     #endregion
 
     #region GENERAL METHODS
+    private void SpawnEffect(GameObject prefab)
+    {
+        if (prefab == null) return;
+        Vector3 spawnPos = _groundCheckPoint != null ? _groundCheckPoint.position : transform.position;
+        GameObject effect = Instantiate(prefab, spawnPos, Quaternion.identity);
+        ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+            Destroy(effect, ps.main.duration + ps.main.startLifetime.constantMax);
+        }
+    }
     private void PlaySFXSafe(AudioClip clip)
     {
         if (AudioManager.instance != null && clip != null)
             AudioManager.instance.PlaySFX(clip);
+    }
+    private void SpawnEffect(GameObject prefab, bool flipX = false)
+    {
+        if (prefab == null) return;
+        GameObject effect = Instantiate(prefab, transform.position, Quaternion.identity);
+
+        SpriteRenderer sr = effect.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.flipX = flipX;
+
+        ParticleSystem ps = effect.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            var shape = ps.shape;
+            if (flipX) shape.rotation = new Vector3(0, 180, 0);
+            ps.Play();
+            Destroy(effect, ps.main.duration + ps.main.startLifetime.constantMax);
+        }
     }
     public void SetGravityScale(float scale)
     {
@@ -599,19 +641,18 @@ public class HollowKnightMovement : MonoBehaviour
         #endregion
 
         // Play jump effect
-        if (_jumpEffect != null)
-            _jumpEffect.Play();
+        
+            SpawnEffect(_jumpEffectPrefab);
         _animator.SetTrigger("Jump");
         PlaySFXSafe(AudioManager.instance?.jumpSFX);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             _isGrounded = true;
-            // Play land effect
-            if (_landEffect != null)
-                _landEffect.Play();
+            if (RB.linearVelocity.y < -0.1f)
+                SpawnEffect(_landEffectPrefab);
         }
     }
     private void WallJump(int dir)
@@ -642,8 +683,8 @@ public class HollowKnightMovement : MonoBehaviour
         }
 
         // Play jump effect
-        if (_jumpEffect != null)
-            _jumpEffect.Play();
+        if (LastOnGroundTime > 0)
+            SpawnEffect(_jumpEffectPrefab);
     }
     #endregion
 
@@ -665,8 +706,7 @@ public class HollowKnightMovement : MonoBehaviour
             _dashTrail.emitting = true;
 
         // Play dash effect
-        if (_dashEffect != null)
-            _dashEffect.Play();
+        SpawnEffect(_dashEffectPrefab, !IsFacingRight);
         PlaySFXSafe(AudioManager.instance?.dashSFX);
 
         // Dash attack phase - maintain constant velocity
@@ -930,7 +970,7 @@ private void DetectAndHitEnemies()
             LoseLife();
         }
     }
-    private void LoseLife()
+    public void LoseLife()
     {
         currentLives--;
 
@@ -1005,7 +1045,7 @@ private void DetectAndHitEnemies()
         Debug.Log("Checkpoint guardado: " + newRespawnPoint.name);
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         CurrentHealth = MaxHealth;
         IsInvulnerable = true;
