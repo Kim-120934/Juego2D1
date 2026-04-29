@@ -16,7 +16,7 @@ public class PlayerUI : MonoBehaviour
 
     private void Start()
     {
-        _player = FindObjectOfType<HollowKnightMovement>();
+        _player = FindFirstObjectByType<HollowKnightMovement>();
     }
 
     private void Update()

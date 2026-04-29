@@ -5,6 +5,7 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance;
     private string _pendingName = "Jugador";
+    public string nextSpawnID;
 
     public void SetPendingName(string name)
     {
@@ -32,7 +33,7 @@ public class SaveManager : MonoBehaviour
     {
         Debug.Log("Guardando en: " + GetSavePath(slot));
         Debug.Log("Nombre pendiente: " + _pendingName);
-        HollowKnightMovement player = FindObjectOfType<HollowKnightMovement>();
+        HollowKnightMovement player = FindFirstObjectByType<HollowKnightMovement>();
         if (player == null) return;
         
         SaveData data = new SaveData();

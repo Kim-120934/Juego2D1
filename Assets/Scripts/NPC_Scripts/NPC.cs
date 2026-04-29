@@ -14,7 +14,7 @@ public class NPC : MonoBehaviour
 
     private void Start()
     {
-        _player = FindObjectOfType<HollowKnightMovement>();
+        _player = FindFirstObjectByType<HollowKnightMovement>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -57,7 +57,7 @@ public class HollowKnightMovement : MonoBehaviour
     public int currentLives=3;
     public int maxHitsPerLife = 5;
     public int currentHits;
-    private bool _hasLanded = false;
+    
     [Header("Soul System")]
     public int maxSoul = 4;
     public int currentSoul = 0;
@@ -139,8 +139,12 @@ public class HollowKnightMovement : MonoBehaviour
                 if (CoinManager.instance != null)
                     CoinManager.instance.AddCoins(data.coins);
 
-                if (data.respawnX != 0 || data.respawnY != 0)
-                    transform.position = new Vector3(data.respawnX, data.respawnY, 0);
+                if (SaveManager.instance != null &&
+                  string.IsNullOrEmpty(SaveManager.instance.nextSpawnID))
+                {
+                    if (data.respawnX != 0 || data.respawnY != 0)
+                        transform.position = new Vector3(data.respawnX, data.respawnY, 0);
+                }
 
                 Debug.Log("Datos cargados correctamente");
             }
@@ -489,7 +493,7 @@ public class HollowKnightMovement : MonoBehaviour
             return;
         }
 
-        NPC[] npcs = FindObjectsOfType<NPC>();
+        NPC[] npcs = FindObjectsByType<NPC>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (NPC npc in npcs)
         {
             npc.Interact();

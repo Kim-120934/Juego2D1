@@ -37,8 +37,9 @@ namespace FirstGearGames.SmoothCameraShaker.Demo
 
         private void Awake()
         {
+            // Updated to use FindObjectsByType with FindObjectsSortMode.None for better performance
+            _resettables = FindObjectsByType<Resettable>(FindObjectsSortMode.None);
             _scaleSlider.onValueChanged.AddListener(ScaleSlider_ValueChanged);
-            _resettables = FindObjectsOfType<Resettable>();
         }
 
         private void Start()

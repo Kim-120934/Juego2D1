@@ -20,7 +20,7 @@ public class MenuParticles : MonoBehaviour
 
     private void Start()
     {
-        Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = FindFirstObjectByType<Canvas>();
         if (canvas != null)
         {
             _canvasRect = canvas.GetComponent<RectTransform>();

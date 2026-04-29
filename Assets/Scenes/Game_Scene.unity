@@ -1416,7 +1416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: Level_2
-  spawnPointID: NPC
+  spawnPointID: SpawnTrans_Sala2.1
 --- !u!61 &742389616
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2615,7 +2615,6 @@ Transform:
   - {fileID: 1516709429}
   - {fileID: 1775819162}
   - {fileID: 1083223369}
-  - {fileID: 1396226974}
   - {fileID: 1429140766}
   - {fileID: 742389614}
   m_Father: {fileID: 0}
@@ -2791,6 +2790,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1205953827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205953828}
+  - component: {fileID: 1205953829}
+  m_Layer: 0
+  m_Name: SpawnTrans_Sala1.1
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1205953828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205953827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.59, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1516709429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1205953829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205953827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c709e46545c9c704aaddee0b63fccf19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnID: SpawnTrans_Sala1.1
 --- !u!4 &1237958965 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 455412304575216480, guid: 4536ad79e2ea040408958a9ca64d5eca, type: 3}
@@ -3016,11 +3060,11 @@ Transform:
   m_GameObject: {fileID: 1396226973}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -49.64, y: 12.79, z: -0.16327417}
-  m_LocalScale: {x: 0.49619, y: 0.49619, z: 0.49619}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1111876569}
+  m_Father: {fileID: 1516709429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1396226975
 BoxCollider2D:
@@ -3111,7 +3155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: Level_2
-  spawnPointID: sala2_derecha
+  spawnPointID: SpawnTrans_Sala2
 --- !u!61 &1429140765
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3423,7 +3467,10 @@ Transform:
   m_LocalPosition: {x: -49.64, y: 12.79, z: -0.16327417}
   m_LocalScale: {x: 0.49619, y: 0.49619, z: 0.49619}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1812446528}
+  - {fileID: 1396226974}
+  - {fileID: 1205953828}
   m_Father: {fileID: 1111876569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1516709430
@@ -3438,8 +3485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ed35e107c44ce429820292cb905c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnID: Puerta
-  spawnPoint: {fileID: 1396226974}
+  spawnID: SpawnTrans_Sala1.1
+  spawnPoint: {fileID: 1205953828}
 --- !u!1001 &1524863324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4100,8 +4147,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ed35e107c44ce429820292cb905c32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnID: sala1_izquierda
-  spawnPoint: {fileID: 1083223369}
+  spawnID: SpawnTrans_Sala1
+  spawnPoint: {fileID: 1812446528}
+--- !u!1 &1812446527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1812446528}
+  - component: {fileID: 1812446529}
+  m_Layer: 0
+  m_Name: SpawnTrans_Sala1
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1812446528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812446527}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 76.92, y: -35.870003, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1516709429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812446529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812446527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c709e46545c9c704aaddee0b63fccf19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnID: SpawnTrans_Sala1
 --- !u!1 &1828429705
 GameObject:
   m_ObjectHideFlags: 0

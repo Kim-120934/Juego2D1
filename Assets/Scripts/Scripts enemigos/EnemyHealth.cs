@@ -68,7 +68,7 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} ha muerto!");
 
-        HollowKnightMovement player = FindObjectOfType<HollowKnightMovement>();
+        HollowKnightMovement player = FindFirstObjectByType<HollowKnightMovement>();
         AudioManager.instance.PlaySFX(AudioManager.instance.killEnemySFX);
         if (player != null)
             player.GainSoul(1);

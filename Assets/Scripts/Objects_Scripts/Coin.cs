@@ -11,7 +11,7 @@ public class Coin : MonoBehaviour
 
     private void Start()
     {
-        _player = FindObjectOfType<HollowKnightMovement>().transform;
+        _player = FindFirstObjectByType<HollowKnightMovement>().transform;
         Destroy(gameObject, lifetime);
 
         // Pequeño impulso aleatorio al aparecer
